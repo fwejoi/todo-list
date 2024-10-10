@@ -1,10 +1,11 @@
-import dom from './dom';
+import dom from './dom';//导入dom操作模块
 
 const projects = (() => {
-  let projectsList = [];
+  let projectsList = [];//存储项目列表
 
-  // GET DEFAULT PROJECTS AND TASKS FROM LOCAL STORAGE
+  // 从本地存储获取默认任务和项目
   if (localStorage.getItem('projects') === null) {
+    //如果没用存储的项目则创建默认项目
     projectsList = [
       {
         icon: 'fa-tools',
@@ -38,38 +39,42 @@ const projects = (() => {
       },
     ];
   } else {
+    //如果有存储的项目则从本地加载项目
     const projectsFromStorage = JSON.parse(localStorage.getItem('projects'));
     projectsList = projectsFromStorage;
   }
 
+  //定义项目类
   class Project {
     constructor(icon, title) {
-      this.icon = icon;
-      this.title = title;
-      this.tasks = [];
+      this.icon = icon;//图标
+      this.title = title;//标题
+      this.tasks = [];//任务列表
     }
   }
-
+  //添加项目
   function addProject(icon, title) {
-    const project = new Project(icon, title);
-    projectsList.push(project);
-    dom.showProjects();
+    const project = new Project(icon, title);//创建新项目实例
+    projectsList.push(project);//加入项目列表
+    dom.showProjects();//更新dom显示项目
   }
-
+  //编辑项目
   function editProject(icon, title, index, link) {
-    projectsList[index].icon = icon;
-    projectsList[index].title = title;
-    dom.showProjects();
-    dom.selectLink(link, index, 'edit');
+    projectsList[index].icon = icon;//更新图标
+    projectsList[index].title = title;//更新标题
+    dom.showProjects();//更新dom显示项目
+    dom.selectLink(link, index, 'edit');//选择对应链接进行编辑？？？
   }
 
+  //删除项目
   function deleteProject(index) {
     if (index > -1) {
-      projectsList.splice(index, 1);
+      projectsList.splice(index, 1);//从项目中移除项目
     }
-    dom.showProjects();
+    dom.showProjects();//更新显示dom项目
   }
 
+  
   return {
     projectsList,
     addProject,
